@@ -1,0 +1,25 @@
+name: Test Github environemtns
+
+on:
+    workflow_dispatch:
+      inputs:
+        useEnv:
+          description: 'environment name that sould be used'
+          required: true
+
+jobs:
+  display-variables:
+    name: ${{ vars.JOB_NAME }}
+    runs-on: ubuntu-latest
+    environment: ${{inputs.useEnv}}
+    steps:
+      - name: Use variables
+        run: |
+          echo "this is env variable : $THIS_IS_VARIABLE"
+          echo "this is env variable : $THIS_IS_SECRET"
+          echo "repository variable : $RESPOSITORY_VAR"
+        env:
+          THIS_IS_VARIABLE: ${{ vars.THIS_IS_VARIABLE }}
+          THIS_IS_SECRET: ${{ secrets.THIS_IS_SECRET }}
+          RESPOSITORY_VAR: ${{ vars.DEPENDE_ENV_VARIABLES }}
+        
