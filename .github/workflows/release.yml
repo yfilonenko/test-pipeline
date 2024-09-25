@@ -51,8 +51,6 @@ jobs:
       - name: Create new branch
         run: |
           git checkout -b release/${{ steps.bump_version.outputs.version }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Push new branch
         run: |
