@@ -1,0 +1,65 @@
+name: Create Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'The version to release (e.g., 1.0.0)'
+        required: true
+
+      releaseNotes:
+        description: Provide release notes for following release
+        required: false
+        default: ''
+
+jobs:
+  release:
+    if: ${{ github.ref_name == 'main' }}
+    name: Create Release and Update Version
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Bump release version
+        id: bump_version
+        run: |
+          echo "Testing release ${{ inputs.version }}" >> README.md
+          echo "version=${{ inputs.version }} >> $GITHUB_OUTPUT
+
+      - name: Commit version changes
+        run: |
+          NEW_VERSION=${{ steps.bump_version.outputs.version }}
+
+          echo "Setting version to $NEW_VERSION"
+
+          git config --global user.name "GitHub Action"
+          git config --global user.email "actions@github.com"
+          git add README.md
+          git commit -m "chore: bump version to $NEW_VERSION"
+          git tag $NEW_VERSION
+
+      - name: Push changes and tags
+        run: |
+          git push origin main --follow-tags
+
+      - name: Create new branch
+        run: |
+          git checkout -b release/${{ steps.bump_version.outputs.version }}
+
+      - name: Push new branch
+        run: |
+          git push origin release/${{ steps.bump_version.outputs.version }}
+
+      - name: Create Release
+        uses: actions/create-release@v1
+        with:
+          tag_name: v${{ steps.bump_version.outputs.version }}
+          release_name: Release ${{ steps.bump_version.outputs.version }}
+          body: |
+            Release notes for version ${{ steps.bump_version.outputs.version }}
+
+            ${{ inputs.releaseNotes }}
+          draft: false
+          prerelease: false
