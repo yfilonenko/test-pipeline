@@ -25,7 +25,7 @@ jobs:
       - name: Bump release version
         id: bump_version
         run: |
-          echo "Testing release ${{ inputs.version }}" >> README.md
+          $(echo "Testing release ${{ inputs.version }}" >> README.md)
           echo "version=${{ inputs.version }} >> $GITHUB_OUTPUT
 
       - name: Commit version changes
