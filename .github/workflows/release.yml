@@ -11,6 +11,8 @@ on:
         description: Provide release notes for following release
         required: false
         default: ''
+permissions:
+  contents: write
 
 jobs:
   release:
