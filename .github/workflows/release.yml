@@ -55,9 +55,8 @@ jobs:
           cache: maven
 
       - name: Run Maven project
-        id: bump_release_version
         run: |
-          mvn -f my-app clean package
+          bash ./run.sh
 
       - name: Bump release version
         id: bump_version
