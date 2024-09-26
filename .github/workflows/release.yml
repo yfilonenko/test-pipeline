@@ -19,6 +19,8 @@ jobs:
     if: ${{ github.ref_name == 'main' }}
     name: Create Release and Update Version
     runs-on: ubuntu-latest
+    outputs:
+      newSHA: ${steps.sha.outputs.new_sha}
 
     steps:
       - name: Checkout code
@@ -47,6 +49,11 @@ jobs:
           git push origin main --follow-tags
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: get SHA
+        id: sha
+        run: |
+          echo "new_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
 
       - name: Create new branch
         run: |
@@ -78,6 +85,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+        with:
+          ref: ${{ needs.release.outputs.newSHA }}
+          fetch-depth: 0
 
       - name: Bump snapshot version
         id: bump_version
