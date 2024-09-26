@@ -20,7 +20,7 @@ jobs:
     name: Create Release and Update Version
     runs-on: ubuntu-latest
     outputs:
-      newSHA: ${steps.sha.outputs.new_sha}
+      newSHA: ${{steps.sha.outputs.new_sha}}
 
     steps:
       - name: Checkout code
