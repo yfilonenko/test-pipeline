@@ -11,3 +11,4 @@ Testing release 2.0.0
 Testing release 2.2.2
 Setting snapshot version 2.2.2-snapshot
 Testing release 4.0.0
+Setting snapshot version 4.0.0-snapshot
