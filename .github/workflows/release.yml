@@ -97,10 +97,6 @@ jobs:
 
             ${{ inputs.releaseNotes }}
 
-      - name: Checkout to main
-        run: |
-          git switch main
-
   after-release:
     needs: release
     if: ${{ github.ref_name == 'main' }}
@@ -110,7 +106,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4.2.0
         with:
-          fetch-depth: 0
           ref: ${{ needs.release.outputs.newSHA }}
 
       - name: Bump snapshot version
