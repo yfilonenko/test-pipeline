@@ -108,6 +108,7 @@ jobs:
         with:
           ref: ${{ needs.release.outputs.newSHA }}
           fetch-depth: 0
+          path: main
 
       - name: Bump snapshot version
         id: bump_version
