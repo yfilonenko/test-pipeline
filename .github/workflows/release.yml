@@ -46,6 +46,19 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Set up JDK 21 for x64 🔧
+        uses: actions/setup-java@v4.4.0
+        with:
+          java-version: '21'
+          distribution: 'corretto'
+          architecture: x64
+          cache: maven
+
+      - name: Run Maven project
+        id: bump_release_version
+        run: |
+          mvn -f my-app clean package
+
       - name: Bump release version
         id: bump_version
         run: |
@@ -87,10 +100,6 @@ jobs:
         with:
           title: Release ${{ steps.bump_version.outputs.version }}
           tag: v${{ steps.bump_version.outputs.version }}
-          body: |
-            Release notes for version ${{ steps.bump_version.outputs.version }}
-
-            ${{ inputs.releaseNotes }}
 
   after-release:
     needs: release
