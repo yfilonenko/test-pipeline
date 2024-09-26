@@ -1,5 +1,5 @@
 #!/bin/bash
-if ! command -v mvn --version &> /dev/null
+if ! command -v mvn -f "./$(dirname "$0")/../my-app" --version &> /dev/null
 then
   echo "mvn could not be found"
   exit 1
