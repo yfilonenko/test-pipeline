@@ -1,0 +1,32 @@
+name: Dependencies
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  dependency:
+    name: Checking tag existence
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.2.0
+        with:
+          fetch-depth: 0
+
+      - name: Set up JDK 21 for x64 🔧
+        uses: actions/setup-java@v4.4.0
+        with:
+          java-version: '21'
+          distribution: 'corretto'
+          architecture: x64
+          cache: maven
+
+      - name: Maven Dependency Tree Dependency Submission
+        uses: advanced-security/maven-dependency-submission-action@v4.1.1
+        with:
+          directory: 'my-app'
+          correlator: "${{ github.job }}-my-app"
