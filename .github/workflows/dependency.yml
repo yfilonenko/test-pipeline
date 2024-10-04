@@ -8,7 +8,7 @@ permissions:
 
 jobs:
   dependency:
-    name: Checking tag existence
+    name: Dependency Tree
     runs-on: ubuntu-latest
 
     steps:
